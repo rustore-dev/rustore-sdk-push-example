@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">RuStore Push Example</string>
+
+    <!-- Notifications -->
+    <string name="notifications_data_push_channel_id">data_push_channel</string>
+    <string name="notifications_data_push_channel_name">Data push channel</string>
+    <string name="notifications_notification_push_channel_id">notification_push_channel</string>
+    <string name="notifications_notification_push_channel_name">Notification push channel</string>
+
+</resources>
