@@ -1,6 +1,8 @@
 package ru.rustore.sdk.pushexample.app
 
 import android.app.Application
+import android.util.Log
+import ru.rustore.sdk.core.tasks.OnCompleteListener
 import ru.rustore.sdk.pushclient.RuStorePushClient
 import ru.rustore.sdk.pushexample.BuildConfig
 import ru.rustore.sdk.pushexample.R
@@ -23,6 +25,15 @@ class App : Application() {
             projectId = BuildConfig.PUSH_PROJECT_ID,
             logger = PushLogger(tag = "PushExampleLogger")
         )
+        RuStorePushClient.getToken().addOnCompleteListener(object : OnCompleteListener<String>{
+            override fun onFailure(throwable: Throwable) {
+                Log.e(LOG_TAG, "getToken onFailure", throwable)
+            }
+
+            override fun onSuccess(result: String) {
+                Log.d(LOG_TAG, "getToken onSuccess token = $result")
+            }
+        })
     }
 
     /*
@@ -34,5 +45,9 @@ class App : Application() {
             channelId = getString(R.string.notifications_notification_push_channel_id),
             channelName = getString(R.string.notifications_notification_push_channel_name)
         )
+    }
+
+    companion object {
+        private const val LOG_TAG = "App"
     }
 }

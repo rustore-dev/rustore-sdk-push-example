@@ -1,5 +1,6 @@
 package ru.rustore.sdk.pushexample.notifications
 
+import android.util.Log
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -14,9 +15,10 @@ import ru.rustore.sdk.pushexample.notifications.wrapper.model.PushMessageDto
 
 class PushListenerService : RuStoreMessagingService() {
     private val notificationManagerWrapper =
-        NotificationManagerWrapper.getInstance(applicationContext)
+        NotificationManagerWrapper.getInstance(this)
 
     override fun onNewToken(token: String) {
+        Log.d(LOG_TAG, "onNewToken token = $token")
         /*
          Вам необходимо отправить полученный пуш-токен на свой сервер,
          с которого будет осуществляться рассылка пуш-уведомлений.
@@ -60,5 +62,9 @@ class PushListenerService : RuStoreMessagingService() {
         val channelId = getString(R.string.notifications_data_push_channel_id)
         val channelName = getString(R.string.notifications_data_push_channel_name)
         return channelId to channelName
+    }
+
+    companion object {
+        private const val LOG_TAG = "PushListenerService"
     }
 }

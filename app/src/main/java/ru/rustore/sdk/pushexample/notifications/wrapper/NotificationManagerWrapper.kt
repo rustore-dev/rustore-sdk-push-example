@@ -1,6 +1,9 @@
 package ru.rustore.sdk.pushexample.notifications.wrapper
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -27,6 +30,13 @@ class NotificationManagerWrapper private constructor(
             createNotificationChannel(channelId = data.channelId, channelName = data.channelName)
         }
 
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
         notificationManager.notify(data.id, notification)
     }
 
