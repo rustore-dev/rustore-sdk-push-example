@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import ru.rustore.sdk.pushclient.messaging.model.Notification
 import ru.rustore.sdk.pushexample.notifications.wrapper.model.AppNotification
 
 class NotificationManagerWrapper private constructor(
@@ -21,13 +22,15 @@ class NotificationManagerWrapper private constructor(
     }
 
     fun showNotification(context: Context, data: AppNotification) {
-        val notification = NotificationCompat.Builder(context, data.channelId)
-            .setContentTitle(data.title)
-            .setContentText(data.message)
-            .build()
+        val notification = data.channelId?.let {
+            NotificationCompat.Builder(context, it)
+                .setContentTitle(data.title)
+                .setContentText(data.message)
+                .build()
+        }
 
-        if (notificationManager.getNotificationChannel(data.channelId) == null) {
-            createNotificationChannel(channelId = data.channelId, channelName = data.channelName)
+        if (notificationManager.getNotificationChannel(data.channelId.toString()) == null) {
+            createNotificationChannel(channelId = data.channelId.toString(), channelName = data.channelName.toString())
         }
 
         if (ActivityCompat.checkSelfPermission(
@@ -37,7 +40,9 @@ class NotificationManagerWrapper private constructor(
         ) {
             return
         }
-        notificationManager.notify(data.id, notification)
+        if (notification != null) {
+            notificationManager.notify(data.id, notification)
+        }
     }
 
     companion object {

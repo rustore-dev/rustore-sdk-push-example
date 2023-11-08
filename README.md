@@ -1,6 +1,6 @@
 # Пример внедрения RuStore Push SDK
 
-### [Документация RuStore Push SDK](https://help.rustore.ru/rustore/for_developers/developer-documentation/RuStore-SDK-push-notifications)
+### [Документация RuStore Push SDK](https://help.rustore.ru/rustore/for_developers/developer-documentation/sdk_push-notifications)
 
 ## Условия работы SDK
 
