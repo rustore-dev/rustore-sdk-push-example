@@ -7,7 +7,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import ru.rustore.sdk.pushclient.messaging.model.Notification
 import ru.rustore.sdk.pushexample.notifications.wrapper.model.AppNotification
 
 class NotificationManagerWrapper private constructor(

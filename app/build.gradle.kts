@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.ApkSigningConfig
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -6,18 +9,32 @@ plugins {
 
 android {
     namespace = "ru.rustore.sdk.pushexample"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "ru.rustore.sdk.pushexample"
         minSdk = 23
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField(type = "String", name = "PUSH_PROJECT_ID", value = "\"\"")
+
+        signingConfigs {
+            // Замените на свою подпись!
+            val debugStoreFile = rootProject.file("cert/release.keystore")
+            val debugPropsFile = rootProject.file("cert/release.properties")
+            val debugProps = Properties()
+            debugPropsFile.inputStream().use(debugProps::load)
+            val debugSigningConfig = getByName<ApkSigningConfig>("debug") {
+                storeFile = debugStoreFile
+                keyAlias = debugProps.getProperty("key_alias")
+                keyPassword = debugProps.getProperty("key_password")
+                storePassword = debugProps.getProperty("store_password")
+            }
+            signingConfig = debugSigningConfig
+        }
     }
 
     buildTypes {
@@ -27,6 +44,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName<ApkSigningConfig>("debug")
         }
     }
     compileOptions {
@@ -45,7 +63,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 
-    implementation("ru.rustore.sdk:pushclient:1.0.0")
+    implementation("ru.rustore.sdk:pushclient:2.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
