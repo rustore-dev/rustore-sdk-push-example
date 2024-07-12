@@ -38,6 +38,15 @@ class PushListenerService : RuStoreMessagingService() {
         )
     }
 
+    override fun onDeletedMessages() {
+        Log.d(LOG_TAG, "onDeletedMessages")
+        /*
+         Метод вызывается, если один или несколько push-уведомлений не доставлены на устройство.
+         Например, если время жизни уведомления истекло до момента доставки.
+         При вызове этого метода рекомендуется синхронизироваться со своим сервером, чтобы не пропустить данные.
+         */
+    }
+
     override fun onError(errors: List<RuStorePushClientException>) {
         errors.forEach { error -> error.printStackTrace() }
     }
